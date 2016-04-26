@@ -1,12 +1,12 @@
 require 'active_record'
-require 'mysql2'
+#require 'mysql2'
 require "sinatra"
 require "json"
 require 'rest-client'
 require "sinatra/reloader" if development?
 
-ActiveRecord::Base.configurations = YAML.load_file('database.yml')
-ActiveRecord::Base.establish_connection('development')
+#ActiveRecord::Base.configurations = YAML.load_file('database.yml')
+#ActiveRecord::Base.establish_connection('development')
 
 get "/" do
   "Hello, world!"

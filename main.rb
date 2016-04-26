@@ -18,7 +18,7 @@ post "/linebot/callback" do
   contents = {
     contentType: 1,
     toType: 1,
-    text: message
+    text: "#{ message }\r\n求人ならここが良いわよ。http://www.green-japan.com/job/10154"
   }
   post_params = {
     to: [line_mes["content"]["from"]],

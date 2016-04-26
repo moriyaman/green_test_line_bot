@@ -3,16 +3,13 @@
 require "sinatra"
 require "json"
 require 'rest-client'
-require "sinatra/reloader" if development?
+#require "sinatra/reloader" if development?
 
 #ActiveRecord::Base.configurations = YAML.load_file('database.yml')
 #ActiveRecord::Base.establish_connection('development')
 
 get "/" do
   "Hello, world!"
-end
-
-get "/callback" do
 end
 
 post "/linebot/callback" do

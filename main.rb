@@ -1,4 +1,4 @@
-require 'active_record'
+#require 'active_record'
 #require 'mysql2'
 require "sinatra"
 require "json"

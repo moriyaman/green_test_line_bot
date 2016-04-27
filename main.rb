@@ -32,9 +32,10 @@ post "/linebot/callback" do
   contents = {
     "contentType":8,
     "contentMetadata":{
-    "STKID":"100",
-    "STKPKGID":"1",
-    "STKVER":"100"
+      "STKID":"100",
+      "STKPKGID":"1",
+      "STKVER":"100"
+    }
   }
 
   post_params = {

@@ -27,8 +27,8 @@ post "/linebot/callback" do
     return "NO"
   end
 
-  request = Line::Bot::Receive::Request.new(request.env)
-  request.data.each { |message|
+  line_request = Line::Bot::Receive::Request.new(request.env)
+  line_request.data.each { |message|
     case message
     when Line::Bot::Receive::Message
       case message.content

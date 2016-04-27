@@ -26,7 +26,14 @@ end
 post "/linebot/callback" do
   line_mes = JSON.parse(request.body.read)["result"][0]
   message = line_mes["content"]["text"]
-  client.send_text([line_mes["content"]["from"]], text: "Hello world")
+  client.send_sticker([line_mes["content"]["from"]],
+    contentMetadata: {
+      "STKID" => "3",
+      "STKPKGID" => "1",
+      "STKVER" => "100" # Optional
+    }
+  )
+
 end
 
 =begin

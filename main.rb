@@ -26,12 +26,13 @@ get "/" do
 end
 
 post "/linebot/callback" do
-  line_mes = JSON.parse(request.body.read)["result"][0]
-  message = line_mes["content"]["text"]
 
   p "------------------"
-  p JSON.parse(request.body.read)["result"]
+  p JSON.parse(request.body.read)
   p "------------------"
+
+  line_mes = JSON.parse(request.body.read)["result"][0]
+  message = line_mes["content"]["text"]
 
   client.send_sticker([line_mes["content"]["from"]],
     contentMetadata: {

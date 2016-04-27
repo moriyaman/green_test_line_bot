@@ -16,7 +16,7 @@ def client
     config.channel_mid    = ENV["LINE_CHANNEL_MID"]
     config.proxy          = ENV["FIXIE_URL"]
   }
-eond
+end
 
 get "/" do
   "Hello, world!"

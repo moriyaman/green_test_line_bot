@@ -14,7 +14,7 @@ def client
     config.channel_id     = ENV["LINE_CHANNEL_ID"]
     config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
     config.channel_mid    = ENV["LINE_CHANNEL_MID"]
-    config.proxy          = ENV["FIXIE_URL"]
+    #config.proxy          = ENV["FIXIE_URL"]
   }
 end
 

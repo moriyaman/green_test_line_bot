@@ -3,19 +3,20 @@
 require "sinatra"
 require "json"
 require 'rest-client'
-require 'line/bot'
+#require 'line/bot'
 #require "sinatra/reloader" if development?
+require 'line/bot/client'
 
 #ActiveRecord::Base.configurations = YAML.load_file('database.yml')
 #ActiveRecord::Base.establish_connection('development')
 
 def client
-  @client ||= Line::Bot::Client.new { |config|
+  @client ||= Line::Bot::Client.new do |config|
     config.channel_id     = ENV["LINE_CHANNEL_ID"]
     config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
     config.channel_mid    = ENV["LINE_CHANNEL_MID"]
-    #config.proxy          = ENV["FIXIE_URL"]
-  }
+    config.proxy          = ENV["FIXIE_URL"]
+  end
 end
 
 get "/" do
@@ -23,22 +24,9 @@ get "/" do
 end
 
 post "/linebot/callback" do
-  signature = request.env['HTTP_X_LINE_CHANNELSIGNATURE']
-  unless client.validate_signature(request.body.read, signature)
-    error 400 do 'Bad Request' end
-  end
-
-  receive_request = Line::Bot::Receive::Request.new(request.env)
-  receive_request.data.each { |message|
-    case message.content
-    when Line::Bot::Message::Text
-      client.send_text(
-        to_mid: message.from_mid,
-        text: message.content[:text],
-      )
-    end
-  }
-  "OK"
+  line_mes = JSON.parse(request.body.read)["result"][0]
+  message = line_mes["content"]["text"]
+  client.send_text([line_mes["content"]["from"]], text: "Hello world")
 end
 
 =begin

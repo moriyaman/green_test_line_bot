@@ -11,16 +11,37 @@ require 'line/bot'
 
 def client
   @client ||= Line::Bot::Client.new { |config|
-    config.channel_id = ENV["LINE_CHANNEL_ID"]
+    config.channel_id     = ENV["LINE_CHANNEL_ID"]
     config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
-    config.channel_mid = ENV["LINE_CHANNEL_MID"]
+    config.channel_mid    = ENV["LINE_CHANNEL_MID"]
+    config.proxy          = ENV["FIXIE_URL"]
   }
-end
+eond
 
 get "/" do
   "Hello, world!"
 end
 
+post "/linebot/callback" do
+  signature = request.env['HTTP_X_LINE_CHANNELSIGNATURE']
+  unless client.validate_signature(request.body.read, signature)
+    error 400 do 'Bad Request' end
+  end
+
+  receive_request = Line::Bot::Receive::Request.new(request.env)
+  receive_request.data.each { |message|
+    case message.content
+    when Line::Bot::Message::Text
+      client.send_text(
+        to_mid: message.from_mid,
+        text: message.content[:text],
+      )
+    end
+  }
+  "OK"
+end
+
+=begin
 post "/linebot/callback" do
   line_mes = JSON.parse(request.body.read)["result"][0]
   message = line_mes["content"]["text"]
@@ -54,3 +75,4 @@ post "/linebot/callback" do
   RestClient.proxy = ENV["FIXIE_URL"]
   RestClient.post("https://trialbot-api.line.me/v1/events", post_params.to_json, headers)
 end
+=end

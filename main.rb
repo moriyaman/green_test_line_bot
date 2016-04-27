@@ -22,15 +22,27 @@ get "/" do
 end
 
 post "/linebot/callback" do
-  line_mes = JSON.parse(request.body.read)["result"][0]
-  #message = line_mes["content"]["text"]
-  receive_request = Line::Bot::Receive::Request.new(request.env)
-  client.send_sticker(
-    to_mid: [line_mes["content"]["from"]],
-    stkpkgid: 2,                                          # contentMetadata.STKPKGID
-    stkid: 144,                                           # contentMetadata.STKID
-    stkver: 100                                           # contentMetadata.STKVER
-  )
+  signature = request.env['HTTP_X_LINE_CHANNELSIGNATURE']
+  unless client.validate_signature(request.body.read, signature)
+    return "NO"
+  end
+
+  request = Line::Bot::Receive::Request.new(request.env)
+  request.data.each { |message|
+    case message
+    when Line::Bot::Receive::Message
+      case message.content
+      when Line::Bot::Message::Text
+        result = client.send_text(
+          to_mid: message.from_mid,
+          text: message.content[:text],
+        )
+      when Line::Bot::Message::Image, Line::Bot::Message::Video
+      end
+    when Line::Bot::Receive::Operation
+    end
+  }
+  "OK"
 end
 
 =begin

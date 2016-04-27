@@ -24,11 +24,19 @@ end
 post "/linebot/callback" do
   line_mes = JSON.parse(request.body.read)["result"][0]
   message = line_mes["content"]["text"]
+  #contents = {
+  #  contentType: 1,
+  #  toType: 1,
+  #  text: "#{ message }\r\n求人ならここが良いわよ。http://www.green-japan.com/job/10154"
+  #}
   contents = {
-    contentType: 1,
-    toType: 1,
-    text: "#{ message }\r\n求人ならここが良いわよ。http://www.green-japan.com/job/10154"
+    "contentType":8,
+    "contentMetadata":{
+    "STKID":"100",
+    "STKPKGID":"1",
+    "STKVER":"100"
   }
+
   post_params = {
     to: [line_mes["content"]["from"]],
     toChannel: 1383378250,

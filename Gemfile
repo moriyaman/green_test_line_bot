@@ -7,6 +7,6 @@ gem "sinatra"
 gem "sinatra-contrib"
 gem "rest-client"
 gem "dotenv"
-gem "line-bot"
+gem 'line-bot-api'
 
 # gem "rails"

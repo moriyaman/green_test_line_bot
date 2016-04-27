@@ -3,7 +3,6 @@
 require "sinatra"
 require "json"
 require 'rest-client'
-require 'line-bot'
 require 'line/bot/client'
 #require "sinatra/reloader" if development?
 

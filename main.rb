@@ -22,31 +22,6 @@ get "/" do
 end
 
 post "/linebot/callback" do
-  signature = request.env['HTTP_X_LINE_CHANNELSIGNATURE']
-  unless client.validate_signature(request.body.read, signature)
-    return "NO"
-  end
-
-  line_request = Line::Bot::Receive::Request.new(request.env)
-  line_request.data.each { |message|
-    case message
-    when Line::Bot::Receive::Message
-      case message.content
-      when Line::Bot::Message::Text
-        result = client.send_text(
-          to_mid: message.from_mid,
-          text: message.content[:text],
-        )
-      when Line::Bot::Message::Image, Line::Bot::Message::Video
-      end
-    when Line::Bot::Receive::Operation
-    end
-  }
-  "OK"
-end
-
-=begin
-post "/linebot/callback" do
   line_mes = JSON.parse(request.body.read)["result"][0]
   message = line_mes["content"]["text"]
   contents = {
@@ -70,4 +45,3 @@ post "/linebot/callback" do
   RestClient.proxy = ENV["FIXIE_URL"]
   RestClient.post("https://trialbot-api.line.me/v1/events", post_params.to_json, headers)
 end
-=end

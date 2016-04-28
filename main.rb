@@ -37,7 +37,7 @@ post "/linebot/callback" do
     {
       contentType: Line::Bot::Constants::ContentType::STICKER,
       contentMetadata: {
-        "STKID" => "3",
+        "STKID" => ["134", "116", "120", "125", "124", "428", "139", "138"].sample,
         "STKPKGID" => "1",
         "STKVER" => "100" # Optional
       }

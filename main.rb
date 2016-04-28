@@ -26,11 +26,6 @@ get "/" do
 end
 
 post "/linebot/callback" do
-
-  p "------------------"
-  p JSON.parse(request.body.read)
-  p "------------------"
-
   line_mes = JSON.parse(request.body.read)["result"][0]
   message = line_mes["content"]["text"]
 
@@ -41,7 +36,6 @@ post "/linebot/callback" do
       "STKVER" => "100" # Optional
     }
   )
-
 end
 
 =begin
